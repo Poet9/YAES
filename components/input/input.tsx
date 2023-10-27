@@ -14,7 +14,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function textInput
             name={name}
             id={id}
             ref={ref}
-            className={`px-6 py-4 w-full text-base rounded-md border-2 focus:border-grey-500 ${
+            className={`px-6 py-4 text-base rounded-md border-2 focus:border-grey-500 ${
                 className || ""
             }`}
             {...props}
