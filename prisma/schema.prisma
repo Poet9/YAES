@@ -4,6 +4,7 @@
 generator client {
   provider = "prisma-client-js"
 }
+
 //Supabase
 datasource db {
   provider = "postgres"
@@ -20,6 +21,7 @@ model User {
   birthDate DateTime
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt
+  role      Roles    @default(USER)
 
   User_adress    User_adress[]
   Cart           Cart[]
@@ -151,4 +153,9 @@ model Comment_review {
 
   order Order @relation(fields: [orderId], references: [id])
   user  User  @relation(fields: [userId], references: [id])
+}
+
+enum Roles {
+  USER
+  ADMIN
 }
