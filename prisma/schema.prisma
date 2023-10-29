@@ -31,7 +31,7 @@ model User {
 
 model City {
   id       Int    @id @unique
-  name     String @unique
+  name     String 
   wilayaId Int
 
   wilaya      Wilaya        @relation(fields: [wilayaId], references: [id])
@@ -114,21 +114,14 @@ model Cart {
   item Item @relation(fields: [itemId], references: [id])
 }
 
-model Order_status {
-  id     Int    @id @default(autoincrement())
-  status String
-
-  Order Order[]
-}
-
 model Order {
   id             String @id @default(uuid())
   userId         String
   totalPrice     Int
-  order_statusId Int
+  order_status OrderStatus
+
 
   user           User             @relation(fields: [userId], references: [id])
-  status         Order_status     @relation(fields: [order_statusId], references: [id])
   Order_item     Order_item[]
   Comment_review Comment_review[]
 }
@@ -158,4 +151,11 @@ model Comment_review {
 enum Roles {
   USER
   ADMIN
+}
+
+enum OrderStatus {
+  VALIDATION
+  DELIVERY
+  SENT
+  CANCEL
 }
