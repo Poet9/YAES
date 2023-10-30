@@ -5,6 +5,7 @@ import Sign from "@/components/signIn";
 import { forwardRef, useEffect, useState } from "react";
 
 import { CircleStackIcon, LockClosedIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { Session } from "inspector";
 
 type headerProps = React.HTMLAttributes<HTMLHeadingElement>;
 const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
@@ -19,7 +20,7 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
          */
         console.log("I am from the useEffect duuude");
     }, []);
-
+    
     return (
         <header className="py-2 flex justify-between bg-inherit">
             <button
