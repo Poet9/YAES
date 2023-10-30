@@ -1,20 +1,15 @@
-import React from "react";
-import { isFunctionDeclaration } from "typescript";
+import React, { forwardRef } from "react";
 
-function Modal({
-    id,
-    title,
-    hidden,
-    children,
-    onClose,
-    ...props
-}: {
-    id: string;
+type modalProps = React.HTMLAttributes<HTMLDivElement> & {
     title: string;
     hidden: boolean;
     onClose: () => void;
-    children: React.ReactNode;
-}) {
+};
+
+const Modal = forwardRef<HTMLDivElement, modalProps>(function ModalIn(
+    { id, title, hidden, children, onClose, className, ...props },
+    ref
+) {
     const handleClose = (e: any) => {
         if (e.target.id !== id) return;
         onClose();
@@ -27,12 +22,10 @@ function Modal({
             className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center"
             onClick={handleClose}
         >
-            <div className="relative w-full max-w-2xl max-h-full">
-                <div className="relative  bg-white rounded-lg shadow dark:bg-gray-700 text-black">
-                    <div className="flex items-start justify-between p-4 border-b rounded-t  dark:border-gray-600">
-                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                            {title}
-                        </h3>
+            <div className="relative w-full max-w-2xl max-h-full ">
+                <div className="relative  rounded-lg shadow">
+                    <div className="flex items-start justify-between p-4 border-b rounded-t">
+                        <h3 className="text-xl font-semibold text-gray-900 ">{title}</h3>
                         <button
                             type="button"
                             onClick={() => onClose()}
@@ -57,13 +50,10 @@ function Modal({
                             <span className="sr-only">Close modal</span>
                         </button>
                     </div>
-                    <div className="p-6 space-y-6 flex justify-end">
-                        {children ? children : null}
-                    </div>
+                    <div className="p-6 space-y-6 flex-column">{children ? children : null}</div>
                 </div>
             </div>
         </div>
     );
-}
-
+});
 export default Modal;
