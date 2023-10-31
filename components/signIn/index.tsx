@@ -3,7 +3,7 @@ import Modal from "@/components/modal";
 import { Input } from "@/components/input";
 import React, { useState, useRef } from "react";
 import Form from "@/components/form";
-import { useSession, signOut, signIn as SignIn } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 import { signIn, signUp } from "./signFunc";
 
@@ -22,10 +22,7 @@ export default function Sign() {
             signIn(email, password).then(() => {
                 e.preventDefault()
                 console.log({username: email, password: password})
-                SignIn("credentials",{email: email, password: password, redirect: false, callbackUrl: '/'})
-                .then(() => {
-                    setloading(false);
-                })
+                signIn(email, password).then(() => { setloading(false); })
             });
 
         } else if (logType === "sign-up") {
@@ -39,7 +36,9 @@ export default function Sign() {
                 password: inputs[4].value,
                 gender: true
             };
-            signUp(user).then((data) => console.log("from signin dot then", user));
+            signUp(user).then(() => console.log("from signin dot then", user)).
+            then(() => {setloading(false); }).
+            then(() => {signIn(user.email, user.password)});
         }
         // to mock waiting behavior
         setInterval(() => setloading(false), 10000);
