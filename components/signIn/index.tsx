@@ -1,8 +1,9 @@
 "use client";
 import Modal from "@/components/modal";
 import { Input } from "@/components/input";
-import { useState } from "react";
+import React, { useState, useRef } from "react";
 import Form from "@/components/form";
+import { useSession, signOut, signIn as SignIn } from "next-auth/react";
 
 import { signIn, signUp } from "./signFunc";
 
@@ -17,9 +18,16 @@ export default function Sign() {
             //write code to sign in
             const email = e.target.getElementsByTagName("input")[0].value;
             const password = e.target.getElementsByTagName("input")[1].value;
-            signIn(email, password).then((data) =>
-                console.log("from signin dot then", email, password)
-            );
+            
+            signIn(email, password).then(() => {
+                e.preventDefault()
+                console.log({username: email, password: password})
+                SignIn("credentials",{email: email, password: password, redirect: false, callbackUrl: '/'})
+                .then(() => {
+                    setloading(false);
+                })
+            });
+
         } else if (logType === "sign-up") {
             // write code to sign up
             const inputs = e.target.getElementsByTagName("input");
@@ -29,15 +37,32 @@ export default function Sign() {
                 name: inputs[2].value,
                 birthday: inputs[3].value,
                 password: inputs[4].value,
+                gender: true
             };
             signUp(user).then((data) => console.log("from signin dot then", user));
         }
         // to mock waiting behavior
-        setInterval(() => setloading(false), 1000);
+        setInterval(() => setloading(false), 10000);
     };
     const toggleLogType = () => {
         logType === "sign-up" ? setlogType("sign-in") : setlogType("sign-up");
     };
+
+    const { data: session} = useSession();
+    console.log(session?.user)
+
+    if (session?.user && session){
+        return(
+            <>
+                <button
+                    className="px-4 py-2 border-1 text-white mx-1 bg-blue-500 hover:bg-blue-600 rounded-lg"
+                    onClick={() => signOut()}
+                >
+                    SIGN OUT
+                </button>
+            </>
+        )
+    }
     return (
         <>
             <button

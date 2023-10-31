@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import Header from "@/components/header/";
 import "./globals.css";
 import ThemeButton from "@/components/header/themeButton";
+import Providers from "@/components/providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,8 +18,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="en" data-theme="light">
             <body className={inter.className}>
-                <Header />
-                {children}
+                <Providers>
+                    <Header />
+                    {children}
+                </Providers>
             </body>
         </html>
     );

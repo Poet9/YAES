@@ -1,0 +1,161 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+//Supabase
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  firstName String
+  gender    Boolean // You don't have the choice choose one (0 female : 1 male)
+  birthDate DateTime
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+  role      Roles    @default(USER)
+
+  User_adress    User_adress[]
+  Cart           Cart[]
+  Order          Order[]
+  Comment_review Comment_review[]
+}
+
+model City {
+  id       Int    @id @unique
+  name     String 
+  wilayaId Int
+
+  wilaya      Wilaya        @relation(fields: [wilayaId], references: [id])
+  User_adress User_adress[]
+}
+
+model Wilaya {
+  id   Int    @id @unique
+  name String @unique
+
+  City City[]
+}
+
+model User_adress {
+  id          String   @id @default(uuid())
+  userId      String
+  isDefault   Boolean?
+  cityId      Int
+  adressLine  String
+  phoneNumber String
+
+  user_id User @relation(fields: [userId], references: [id])
+  city    City @relation(fields: [cityId], references: [id])
+}
+
+model Product_category {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+
+  Product     Product[]
+  promotionId Promotion[] //many to many
+}
+
+model Product {
+  id                 Int     @id @default(autoincrement())
+  product_categoryId Int
+  name               String
+  description        String?
+  img                String
+
+  Item     Item[]
+  category Product_category @relation(fields: [product_categoryId], references: [id])
+}
+
+model Item {
+  id         Int     @id @default(autoincrement())
+  productId  Int
+  SKU        String  @unique
+  qtyInStock Int
+  img        String?
+  price      Int
+  size       String
+  color      String
+
+  product    Product      @relation(fields: [productId], references: [id])
+  Cart       Cart[]
+  Order_item Order_item[]
+}
+
+model Promotion {
+  id            Int      @id @default(autoincrement())
+  name          String
+  description   String?
+  discountRate  Int?
+  discountPrice Int?
+  startDate     DateTime
+  endDate       DateTime
+
+  category Product_category[] //Many to many
+}
+
+model Cart {
+  id     Int    @id @default(autoincrement())
+  userId String
+  itemId Int
+  qty    Int
+
+  user User @relation(fields: [userId], references: [id])
+  item Item @relation(fields: [itemId], references: [id])
+}
+
+model Order {
+  id             String @id @default(uuid())
+  userId         String
+  totalPrice     Int
+  order_status OrderStatus
+
+
+  user           User             @relation(fields: [userId], references: [id])
+  Order_item     Order_item[]
+  Comment_review Comment_review[]
+}
+
+model Order_item {
+  id      String @id @default(uuid())
+  orderId String
+  itemId  Int
+  qty     Int
+  price   Int
+
+  order Order @relation(fields: [orderId], references: [id])
+  item  Item  @relation(fields: [itemId], references: [id])
+}
+
+model Comment_review {
+  id      Int      @id @default(autoincrement())
+  orderId String
+  userId  String
+  rating  Decimal?
+  comment String?
+
+  order Order @relation(fields: [orderId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
+}
+
+enum Roles {
+  USER
+  ADMIN
+}
+
+enum OrderStatus {
+  VALIDATION
+  DELIVERY
+  SENT
+  CANCEL
+}
