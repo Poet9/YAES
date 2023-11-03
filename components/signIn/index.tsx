@@ -47,8 +47,7 @@ export default function Sign() {
         logType === "sign-up" ? setlogType("sign-in") : setlogType("sign-up");
     };
 
-    const { data: session} = useSession();
-    console.log(session?.user)
+    const { data: session } = useSession();
 
     if (session?.user && session){
         return(

@@ -1,8 +1,6 @@
 import { VerifyJwt } from '@/lib/jwt';
-import { user } from '@/types/types';
-import { Prisma, PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 import { NextRequest } from 'next/server';
-import { json } from 'stream/consumers';
 const prisma = new PrismaClient()
 
 interface RequestBody{
