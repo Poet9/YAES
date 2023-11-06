@@ -1,13 +1,13 @@
 import { SignJwtAccessToken } from "@/lib/jwt";
-import { Prisma, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const bcrypt = require("bcrypt");
 
-interface RequestBody {
+type RequestBody = {
     email: string;
     password: string;
-}
+};
 
 export async function POST(request: Request) {
     const body: RequestBody = await request.json();
