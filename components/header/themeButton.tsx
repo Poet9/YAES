@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 
 import { SunIcon, MoonIcon } from "@heroicons/react/24/solid";
 
-const ThemeButton = () => {
+const ThemeButton = ({ hideSideBar, ...props }: { hideSideBar: () => void }) => {
     const [mounted, setMounted] = useState(false);
-    const [theme, settheme] = useState("light");
+    const [theme, settheme] = useState("dark");
     useEffect(() => setMounted(true), []);
 
     if (!mounted) {
         return null;
     }
     const changeTheme = () => {
-        console.log("tahe khal kieabi:", theme);
+        hideSideBar();
         if (document.querySelector("html")?.getAttribute("data-theme") === "dark") {
             document.querySelector("html")?.setAttribute("data-theme", "light");
             settheme("light");
