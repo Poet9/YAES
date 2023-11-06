@@ -1,20 +1,11 @@
-import { Prisma, PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import { Prisma, PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
+import { RequestBody } from "@/types/types";
 
-interface RequestBody{
-    password: string, 
-    email: string, 
-    name: string, 
-    firstName: string, 
-    birthDate: Date, 
-    gender: boolean
-}
-
-export async function POST(request:Request){
-
-    const body:RequestBody = await request.json();
+export async function POST(request: Request) {
+    const body: RequestBody = await request.json();
 
     const user = await prisma.user.create({
         data: {
@@ -23,9 +14,10 @@ export async function POST(request:Request){
             name: body.name,
             firstName: body.firstName,
             birthDate: body.birthDate,
-            gender: body.gender
-        }});
-        
-    const {password, ...result} = user;
-    return  new Response(JSON.stringify(result));
+            gender: body.gender,
+        },
+    });
+
+    const { password, ...result } = user;
+    return new Response(JSON.stringify(result));
 }
