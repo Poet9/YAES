@@ -17,3 +17,10 @@ export type RequestBody = {
     birthDate: Date;
     gender: boolean;
 };
+export type Product = {
+    name: string;
+    id: string;
+    description: string;
+    price: number;
+    imgs: string[];
+};

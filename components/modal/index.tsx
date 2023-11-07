@@ -19,13 +19,13 @@ const Modal = forwardRef<HTMLDivElement, modalProps>(function ModalIn(
         <div
             id={id}
             aria-hidden="true"
-            className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center"
+            className="fixed top-0 h-screen inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center"
             onClick={handleClose}
         >
             <div className="relative w-full max-w-2xl max-h-full ">
                 <div className="relative  rounded-lg shadow">
                     <div className="flex items-start justify-between p-4 border-b rounded-t">
-                        <h3 className="text-xl font-semibold text-gray-900 ">{title}</h3>
+                        <h3 className="text-xl font-semibold ">{title}</h3>
                         <button
                             type="button"
                             onClick={() => onClose()}
