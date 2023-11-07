@@ -4,6 +4,7 @@ import React from "react";
 
 function Card({
     data,
+    popupFunc,
     ...props
 }: {
     data: {
@@ -13,9 +14,11 @@ function Card({
         description: string | undefined;
         price: string | number;
     };
+    popupFunc: (data: any) => void;
 }) {
     return (
         <div
+            onClick={popupFunc}
             id={data.id}
             className="flex flex-col w-64 shadow-2xl shadow-indigo-700/50 bg-zinc-200/25 cursor-pointer rounded-md border-2 border-zinc-200/25"
         >
