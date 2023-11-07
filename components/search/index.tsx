@@ -4,7 +4,14 @@ import { Input } from "@/components/input";
 import Form from "../form";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
-function Search({ hideSidebar, ...props }: { hideSidebar: () => void }) {
+function Search({
+    hideSidebar,
+    className,
+    ...props
+}: {
+    hideSidebar: () => void;
+    className: string | undefined;
+}) {
     const getSearchResult = (e: any) => {
         e.preventDefault();
         hideSidebar();
@@ -14,7 +21,9 @@ function Search({ hideSidebar, ...props }: { hideSidebar: () => void }) {
         <Form
             id=""
             name="searchBar"
-            className="flex bg-slate-800/25  rounded-md w-full md:w-fit hover:opacity-75"
+            className={`flex bg-slate-800/25  rounded-md w-full md:w-fit hover:opacity-75 ${
+                className || ""
+            }`}
             submit={getSearchResult}
         >
             <Input
