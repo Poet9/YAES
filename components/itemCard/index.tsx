@@ -18,6 +18,18 @@ function Item({ product, ...props }: { product: Item }) {
             sethiddenModal(true);
         };
     }, [product.id]);
+    const disableScrollHandler = () => {
+        try {
+            if (!hiddenModal) {
+                document.body.style.overflow = "hidden";
+            } else {
+                document.body.style.overflow = "unset";
+            }
+        } catch (e: any) {
+            console.log("you do not know!");
+        }
+    };
+    disableScrollHandler();
     // render rating stars
     const handleBuying = (e: any) => {
         e.preventDefault();

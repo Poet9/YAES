@@ -25,10 +25,14 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
         console.log("... if you are a developer do this ...");
     }
     const disableScrollHandler = () => {
-        if (showSidebar) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "unset";
+        try {
+            if (showSidebar) {
+                document.body.style.overflow = "hidden";
+            } else {
+                document.body.style.overflow = "unset";
+            }
+        } catch (e: any) {
+            console.log("you do not know!");
         }
     };
     disableScrollHandler();
