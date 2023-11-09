@@ -23,9 +23,9 @@ const Modal = forwardRef<HTMLDivElement, modalProps>(function ModalIn(
             onClick={handleClose}
         >
             <div className="relative w-full max-w-2xl max-h-full ">
-                <div className="relative  rounded-lg shadow">
+                <div className="relative max-h-10/12  rounded-lg shadow">
                     <div className="flex items-start justify-between p-4 border-b rounded-t">
-                        <h3 className="text-xl font-semibold ">{title}</h3>
+                        <h3 className="text-xl font-semibold truncate">{title}</h3>
                         <button
                             type="button"
                             onClick={() => onClose()}
@@ -50,7 +50,11 @@ const Modal = forwardRef<HTMLDivElement, modalProps>(function ModalIn(
                             <span className="sr-only">Close modal</span>
                         </button>
                     </div>
-                    <div className="p-6 space-y-6 flex-column">{children ? children : null}</div>
+                    <div
+                        className={`p-6 space-y-6 flex-column max-h-[80vh] overflow-y-scroll ${className}`}
+                    >
+                        {children ? children : null}
+                    </div>
                 </div>
             </div>
         </div>
