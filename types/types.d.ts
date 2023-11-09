@@ -9,3 +9,18 @@ export type user = {
     birthday: Date;
 };
 
+export type RequestBody = {
+    password: string;
+    email: string;
+    name: string;
+    firstName: string;
+    birthDate: Date;
+    gender: boolean;
+};
+export type Product = {
+    name: string;
+    id: string;
+    description: string;
+    price: number;
+    imgs: string[];
+};
