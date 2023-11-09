@@ -24,3 +24,25 @@ export type Product = {
     price: number;
     imgs: string[];
 };
+
+export type Item = {
+    id: string;
+    title: string;
+    price: number;
+    description: string;
+    category: string;
+    image: string;
+    rating: {
+        rate: number;
+        count: number;
+    };
+};
+// let modalItem = {
+//     id: "",
+//     title: "",
+//     price: 0,
+//     description: "",
+//     category: "",
+//     image: "",
+//     rating: { rate: 0, count: 0 },
+// };

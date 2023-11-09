@@ -18,13 +18,14 @@ export default function Sign() {
             //write code to sign in
             const email = e.target.getElementsByTagName("input")[0].value;
             const password = e.target.getElementsByTagName("input")[1].value;
-            
-            signIn(email, password).then(() => {
-                e.preventDefault()
-                console.log({username: email, password: password})
-                signIn(email, password).then(() => { setloading(false); })
-            });
 
+            signIn(email, password).then(() => {
+                e.preventDefault();
+                console.log({ username: email, password: password });
+                signIn(email, password).then(() => {
+                    setloading(false);
+                });
+            });
         } else if (logType === "sign-up") {
             // write code to sign up
             const inputs = e.target.getElementsByTagName("input");
@@ -34,11 +35,16 @@ export default function Sign() {
                 name: inputs[2].value,
                 birthday: inputs[3].value,
                 password: inputs[4].value,
-                gender: true
+                gender: true,
             };
-            signUp(user).then(() => console.log("from signin dot then", user)).
-            then(() => {setloading(false); }).
-            then(() => {signIn(user.email, user.password)});
+            signUp(user)
+                .then(() => console.log("from signin dot then", user))
+                .then(() => {
+                    setloading(false);
+                })
+                .then(() => {
+                    signIn(user.email, user.password);
+                });
         }
         // to mock waiting behavior
         setInterval(() => setloading(false), 10000);
@@ -47,11 +53,10 @@ export default function Sign() {
         logType === "sign-up" ? setlogType("sign-in") : setlogType("sign-up");
     };
 
-    const { data: session} = useSession();
-    console.log(session?.user)
+    const { data: session } = useSession();
 
-    if (session?.user && session){
-        return(
+    if (session?.user && session) {
+        return (
             <>
                 <button
                     className="px-4 py-2 border-1 text-white mx-1 bg-blue-500 hover:bg-blue-600 rounded-lg"
@@ -60,7 +65,7 @@ export default function Sign() {
                     SIGN OUT
                 </button>
             </>
-        )
+        );
     }
     return (
         <>
