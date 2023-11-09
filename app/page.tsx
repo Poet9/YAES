@@ -13,7 +13,6 @@ export default function Home() {
                     height={0}
                     width={0}
                     style={{ width: "100vw", height: "80vh", objectFit: "cover" }}
-                    objectFit="cover"
                 />
                 <h1 className="transform translate-x"> magic happens here</h1>
             </div>
