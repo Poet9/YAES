@@ -15,7 +15,7 @@ function Form({
     children: React.ReactNode;
 }) {
     return (
-        <form id={id} name={name} onSubmit={submit} className={`block w-full ${className || ""}`}>
+        <form id={id} name={name} onSubmit={submit} className={`block ${className || ""}`}>
             {children ? children : null}
         </form>
     );
