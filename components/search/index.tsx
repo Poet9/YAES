@@ -21,13 +21,11 @@ function Search({
         <Form
             id=""
             name="searchBar"
-            className={`flex bg-slate-800/25  rounded-md w-full md:w-fit hover:opacity-75 ${
-                className || ""
-            }`}
+            className={`flex bg-slate-800/25  rounded-md hover:opacity-75 ${className || ""}`}
             submit={getSearchResult}
         >
             <Input
-                className="ml-1 p-2 w-full  lg:w-96 md:w-32 autofocus"
+                className="ml-1 py-1 w-full md:w-96 autofocus"
                 placeholder="search for items..."
             />
             <button type="submit" className="px-3  rounded  ">

@@ -7,7 +7,7 @@ import { useSession, signOut } from "next-auth/react";
 
 import { signIn, signUp } from "./signFunc";
 
-export default function Sign() {
+export default function Sign({ className = "", ...props }) {
     const [hiddenModal, sethiddenModal] = useState(true);
     const [logType, setlogType] = useState("sign-in");
     const [loading, setloading] = useState(false);
@@ -59,7 +59,7 @@ export default function Sign() {
         return (
             <>
                 <button
-                    className="px-4 py-2 border-1 text-white mx-1 bg-blue-500 hover:bg-blue-600 rounded-lg"
+                    className="px-2 border-1 text-white mx-1  bg-blue-500 hover:bg-blue-600 rounded-lg"
                     onClick={() => signOut()}
                 >
                     SIGN OUT
@@ -70,7 +70,7 @@ export default function Sign() {
     return (
         <>
             <button
-                className="px-4 py-2 border-1 text-white mx-1 bg-blue-500 hover:bg-blue-600 rounded-lg"
+                className={`px-2 border-1 text-white mx-1 bg-blue-500 hover:bg-blue-600 rounded-lg ${className}`}
                 onClick={() => sethiddenModal(false)}
             >
                 SIGN IN

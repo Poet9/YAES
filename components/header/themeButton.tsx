@@ -31,9 +31,9 @@ const ThemeButton = ({ hideSideBar, ...props }: { hideSideBar: () => void }) => 
             onClick={changeTheme}
         >
             {theme === "dark" ? (
-                <SunIcon className="h-5 m-2 w-5 text-orange-300 " />
+                <SunIcon className="h-3 w-3 md:h-5 m-2 md:w-5 text-orange-300 " />
             ) : (
-                <MoonIcon className="h-5 m-2 w-5 text-slate-800 " />
+                <MoonIcon className="h-3 w-3 md:h-5 m-2 md:w-5 text-slate-800 " />
             )}
         </button>
     );
