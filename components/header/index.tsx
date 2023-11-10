@@ -57,7 +57,7 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
             <div className="flex justify-between bg-inherit">
                 <CircleStackIcon
                     href="/"
-                    className="mx-2 w-10 h-10 cursor-pointer text-green-800 "
+                    className="mx-2 w-10 h-10 cursor-pointer text-green-800 hidden md:block"
                     title="logo"
                 />
                 <Search
