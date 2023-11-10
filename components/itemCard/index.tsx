@@ -1,16 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { ReactElement, ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Modal from "@/components/modal";
 import { Item } from "@/types/types";
 import Form from "@/components/form";
-import Select from "../select";
 import { StarIcon } from "@heroicons/react/24/solid";
 
 function Item({ product, ...props }: { product: Item }) {
     let [hiddenModal, sethiddenModal] = useState(true);
     const [imageUrl, setimageUrl] = useState("");
+    const [sizeSelect, setsizeSelect] = useState("");
     useEffect(() => {
         if (product.image.length > 4) sethiddenModal(false);
         setimageUrl(product.image);
@@ -18,10 +18,33 @@ function Item({ product, ...props }: { product: Item }) {
             sethiddenModal(true);
         };
     }, [product.id]);
+    const disableScrollHandler = () => {
+        try {
+            if (!hiddenModal) {
+                document.body.style.overflow = "hidden";
+            } else {
+                document.body.style.overflow = "unset";
+            }
+        } catch (e: any) {
+            console.log("you do not know!");
+        }
+    };
+    disableScrollHandler();
     // render rating stars
     const handleBuying = (e: any) => {
         e.preventDefault();
         console.log("bsahtek bgs!!!");
+    };
+    const sizeSelectHandler = (e: any) => {
+        const prevSize: any = document.getElementById(sizeSelect);
+        if (prevSize) {
+            prevSize.style.backgroundColor = "rgb(212 212 216)";
+            prevSize.style.color = "rgb(100 116 139)";
+        }
+        e.target.style.backgroundColor = "#fff";
+        e.target.style.color = "#000";
+        console.log("it is working from select size");
+        setsizeSelect(e.target.id);
     };
     return (
         <Modal
@@ -60,7 +83,36 @@ function Item({ product, ...props }: { product: Item }) {
             >
                 <h2 className="my-2 text-lg truncate">{product.title}</h2>
                 <p className="h-24 overflow-y-hidden opacity-50">{product.description}</p>
-                {/* <Select className=""  */}
+                <ul className="flex" onClick={(e) => sizeSelectHandler(e)}>
+                    <li
+                        id={`size_S`}
+                        onClick={(e) => sizeSelectHandler(e)}
+                        className="mx-2  text-center w-8 border-2 border-slate-500 rounded-lg cursor-pointer bg-zinc-300 text-slate-600 hover:bg-zinc-50"
+                    >
+                        S
+                    </li>
+                    <li
+                        id={`size_M`}
+                        onClick={(e) => sizeSelectHandler(e)}
+                        className="mx-2  text-center w-8 border-2 border-slate-500 rounded-lg cursor-pointer bg-zinc-300 text-slate-600 hover:bg-zinc-50"
+                    >
+                        M
+                    </li>
+                    <li
+                        id={`size_L`}
+                        onClick={(e) => sizeSelectHandler(e)}
+                        className="mx-2  text-center w-8 border-2 border-slate-500 rounded-lg cursor-pointer bg-zinc-300 text-slate-600 hover:bg-zinc-50"
+                    >
+                        L
+                    </li>
+                    <li
+                        id={`size_XL`}
+                        onClick={(e) => sizeSelectHandler(e)}
+                        className="mx-2  text-center w-8 border-2 border-slate-500 rounded-lg cursor-pointer bg-zinc-300 text-slate-600 hover:bg-zinc-50"
+                    >
+                        XL
+                    </li>
+                </ul>
                 <div className="flex justify-between my-2">
                     <span className="px-2 rounded bg-zinc-200/25">{product.price}$</span>
                     <p className="flex text-[10px] font-extralight">

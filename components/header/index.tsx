@@ -24,9 +24,21 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
     } catch (e) {
         console.log("... if you are a developer do this ...");
     }
-
+    const disableScrollHandler = () => {
+        try {
+            if (showSidebar) {
+                document.body.style.overflow = "hidden";
+            } else {
+                document.body.style.overflow = "unset";
+            }
+        } catch (e: any) {
+            console.log("you do not know!");
+        }
+    };
+    disableScrollHandler();
     useEffect(() => {
         setshowSidebar(false);
+
         /**  here try to fetch the user inside a useEffect hook
          * if it is avalable then render an icon with user details
          * else render the sign in button
@@ -42,8 +54,23 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
             >
                 <Bars3Icon className="mx-2 w-7 h-7 " title="menu" />
             </button>
+            <div className="flex justify-between bg-inherit">
+                <CircleStackIcon
+                    href="/"
+                    className="mx-2 w-10 h-10 cursor-pointer text-green-800 "
+                    title="logo"
+                />
+                <Search
+                    className=" bg-inherit w-fit"
+                    hideSidebar={() => showSidebar && setshowSidebar(false)}
+                />
+                <div className="flex w-25 bg-inherit">
+                    <ThemeButton hideSideBar={() => showSidebar && setshowSidebar(false)} />
+                    <Sign className="text-sm truncate" />
+                </div>
+            </div>
             <aside
-                className={`fixed top-0 left-0 z-10 ${bgColor} w-4/6 h-screen transition-all duration-300 border-2 md:h-full md:w-full md:flex md:bg-inherit md:border-none md:flex-row md:justify-between md:static ${
+                className={`fixed top-0 left-0 z-10 ${bgColor} overscroll-contain w-10/12 h-screen transition-all duration-300 border-2 md:h-full md:w-full md:flex md:bg-inherit md:border-none md:flex-row md:justify-between md:static ${
                     showSidebar ? " visible" : " hidden"
                 }`}
             >
@@ -53,20 +80,8 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
                 >
                     <XMarkIcon className="mx-2 w-5 h-5 " title="close" />
                 </button>
-                <CircleStackIcon
-                    href="/"
-                    className="mx-2 w-10 h-10 cursor-pointer text-rose-800 hidden md:block"
-                    title="logo"
-                />
-                <Search
-                    className=" bg-inherit"
-                    hideSidebar={() => showSidebar && setshowSidebar(false)}
-                />
+
                 <Nav className=" bg-inherit" />
-                <div className="flex flex-col md:flex-row bg-inherit">
-                    <ThemeButton hideSideBar={() => showSidebar && setshowSidebar(false)} />
-                    <Sign />
-                </div>
             </aside>
         </header>
     );
