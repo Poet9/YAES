@@ -42,6 +42,7 @@ const ThemeButton = ({
                 <SunIcon title="Theme" className="h-5 m-2 w-5 text-orange-300" />
             ) : (
                 <MoonIcon title="Theme" className="h-5 m-2 w-5 text-slate-800" />
+
             )}
         </button>
     );
