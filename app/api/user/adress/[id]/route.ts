@@ -50,8 +50,8 @@ export async function POST(request:Request,{params}:{params:{id:string}}) {
     const accessToken = request.headers.get("accessToken")
     const body:RequestBody = await request.json();
 
-    if(!accessToken || !VerifyJwt(accessToken)){
-        return new Response(JSON.stringify({error:"petit malin n3al waldik"}),{status:401})
+    if((!accessToken || !(VerifyJwt(accessToken)?.id == params.id))){
+        return new Response(JSON.stringify({error:"petit malin n3al waldik win rah access token"}),{status:401})
     }
 
     if(await prisma.user_adress.findFirst({where: {isDefault: true}}) && body.isDefault){
