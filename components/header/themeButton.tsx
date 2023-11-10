@@ -4,7 +4,14 @@ import { useEffect, useState } from "react";
 
 import { SunIcon, MoonIcon } from "@heroicons/react/24/solid";
 
-const ThemeButton = ({ hideSideBar, ...props }: { hideSideBar: () => void }) => {
+const ThemeButton = ({
+    className = "",
+    hideSideBar,
+    ...props
+}: {
+    className: string;
+    hideSideBar: () => void;
+}) => {
     const [mounted, setMounted] = useState(false);
     const [theme, settheme] = useState("dark");
     useEffect(() => setMounted(true), []);
@@ -27,13 +34,14 @@ const ThemeButton = ({ hideSideBar, ...props }: { hideSideBar: () => void }) => 
         <button
             aria-label="Toggle Dark Mode"
             type="button"
-            className="flex items-center justify-center rounded-lg p-2 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-700"
+            title="change theme"
+            className={`flex items-center justify-center rounded-lg p-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 ${className}`}
             onClick={changeTheme}
         >
             {theme === "dark" ? (
-                <SunIcon className="h-3 w-3 md:h-5 m-2 md:w-5 text-orange-300 " />
+                <SunIcon title="Theme" className="h-5 m-2 w-5 text-orange-300" />
             ) : (
-                <MoonIcon className="h-3 w-3 md:h-5 m-2 md:w-5 text-slate-800 " />
+                <MoonIcon title="Theme" className="h-5 m-2 w-5 text-slate-800" />
             )}
         </button>
     );

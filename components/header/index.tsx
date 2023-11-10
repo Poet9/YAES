@@ -47,7 +47,7 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
     }, []);
 
     return (
-        <header className="absolute w-full h-fit backdrop-blur-md bg-white-200/[0.3]">
+        <header className="absolute w-full h-fit backdrop-blur-md bg-white-200/[0.3] z-10">
             <button
                 onClick={() => setshowSidebar(!showSidebar)}
                 className="flex items-center justify-center p-2 rounded-md text-gray-600 focus:outline-none md:hidden hover:bg-slate-300"
@@ -64,10 +64,7 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
                     className=" bg-inherit w-fit"
                     hideSidebar={() => showSidebar && setshowSidebar(false)}
                 />
-                <div className="flex w-25 bg-inherit">
-                    <ThemeButton hideSideBar={() => showSidebar && setshowSidebar(false)} />
-                    <Sign className="text-sm truncate" />
-                </div>
+                <Sign className="text-sm truncate" />
             </div>
             <aside
                 className={`fixed top-0 left-0 z-10 ${bgColor} overscroll-contain w-10/12 h-screen transition-all duration-300 border-2 md:h-full md:w-full md:flex md:bg-inherit md:border-none md:flex-row md:justify-between md:static ${
@@ -80,8 +77,11 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
                 >
                     <XMarkIcon className="mx-2 w-5 h-5 " title="close" />
                 </button>
-
                 <Nav className=" bg-inherit" />
+                <ThemeButton
+                    className="w-full md:w-fit"
+                    hideSideBar={() => showSidebar && setshowSidebar(false)}
+                />
             </aside>
         </header>
     );
