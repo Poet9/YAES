@@ -71,7 +71,8 @@ model Product {
   product_categoryId Int
   name               String
   description        String?
-  img                String
+  img                String[]
+  price Int
 
   Item     Item[]
   category Product_category @relation(fields: [product_categoryId], references: [id])
@@ -82,7 +83,7 @@ model Item {
   productId  Int
   SKU        String  @unique
   qtyInStock Int
-  img        String?
+  img        String[]
   price      Int
   size       String
   color      String
@@ -118,7 +119,7 @@ model Order {
   id             String @id @default(uuid())
   userId         String
   totalPrice     Int
-  order_status OrderStatus
+  order_status OrderStatus @default(VALIDATION)
 
 
   user           User             @relation(fields: [userId], references: [id])

@@ -6,6 +6,7 @@ import Form from "@/components/form";
 import { useSession, signOut } from "next-auth/react";
 
 import { signIn, signUp } from "./signFunc";
+import { data } from "autoprefixer";
 
 export default function Sign({ className = "", ...props }) {
     const [hiddenModal, sethiddenModal] = useState(true);
@@ -54,6 +55,7 @@ export default function Sign({ className = "", ...props }) {
     };
 
     const { data: session } = useSession();
+    console.log(session?.user)
 
     if (session?.user && session) {
         return (
