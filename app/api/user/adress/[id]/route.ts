@@ -4,7 +4,6 @@ import { NextRequest } from 'next/server';
 const prisma = new PrismaClient()
 
 interface RequestBody{
-    userId: string, 
     isDefault: boolean, 
     cityId: number, 
     adressLine: string, 
@@ -60,7 +59,7 @@ export async function POST(request:Request,{params}:{params:{id:string}}) {
 
     const user_adress = await prisma.user_adress.create({
         data: {
-            userId: body.userId ,
+            userId: params.id ,
             isDefault: body.isDefault,
             cityId: body.cityId,
             adressLine: body.adressLine,
