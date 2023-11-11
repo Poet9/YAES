@@ -1,16 +1,28 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { pics } from "./data";
 
 function Carousel() {
     const [imageFocus, setimageFocus] = useState(0);
+    useEffect(() => {
+        const slideIterval = setInterval(
+            () =>
+                setimageFocus((imageFocus) => (imageFocus === pics.length - 1 ? 0 : ++imageFocus)),
+            5000
+        );
+
+        return () => {
+            clearInterval(slideIterval);
+        };
+    }, [imageFocus]);
+
     return (
         <div className="relative w-screen h-[80vh] overflow-hidden">
             <div
                 id="carousel_container"
-                className={`flex transition h-[80vh] ease-out duration-400 animate-translate`}
+                className={`flex transition h-[80vh] transition-transform ease-out duration-500`}
                 style={{ transform: `translateX(-${imageFocus * 100}%)` }}
             >
                 {pics.map((url, index) => (
