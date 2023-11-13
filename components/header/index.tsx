@@ -4,9 +4,10 @@ import Nav from "./nav";
 import Sign from "@/components/signIn";
 import { forwardRef, useEffect, useState } from "react";
 
-import { CircleStackIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
+import { CircleStackIcon, Bars3Icon, XMarkIcon, ShoppingBagIcon } from "@heroicons/react/24/solid";
 import Search from "@/components/search";
 import { Session } from "inspector";
+import Link from "next/link";
 
 var bgColor = "";
 type headerProps = React.HTMLAttributes<HTMLHeadingElement>;
@@ -47,7 +48,7 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
     }, []);
 
     return (
-        <header className="absolute w-full h-fit backdrop-blur-md bg-white-200/[0.3] z-10">
+        <header className="absolute w-full p-8 h-fit backdrop-blur-lg bg-white-200/[0.3] z-10">
             <button
                 onClick={() => setshowSidebar(!showSidebar)}
                 className="flex items-center justify-center p-2 rounded-md text-gray-600 focus:outline-none md:hidden hover:bg-slate-300"
@@ -58,15 +59,21 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
                 <CircleStackIcon
                     href="/"
                     className="mx-2 w-10 h-10 cursor-pointer text-green-800 hidden md:block"
-
                     title="logo"
                 />
                 <Search
                     className=" bg-inherit w-fit"
                     hideSidebar={() => showSidebar && setshowSidebar(false)}
                 />
-                <Sign className="text-sm truncate" />
-
+                <div className="flex bg-inherit ">
+                    <Link
+                        className="p-2 bg-slate-500/25 mr-2 rounded-full hover:bg-slate-500/50"
+                        href={`/cart`}
+                    >
+                        <ShoppingBagIcon className="w-7 h-7" />
+                    </Link>
+                    <Sign className=" py-2 h-fit text-sm truncate" />
+                </div>
             </div>
             <aside
                 className={`fixed top-0 left-0 z-10 ${bgColor} overscroll-contain w-10/12 h-screen transition-all duration-300 border-2 md:h-full md:w-full md:flex md:bg-inherit md:border-none md:flex-row md:justify-between md:static ${
@@ -84,7 +91,6 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
                     className="w-full md:w-fit"
                     hideSideBar={() => showSidebar && setshowSidebar(false)}
                 />
-
             </aside>
         </header>
     );

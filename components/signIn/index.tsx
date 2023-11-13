@@ -1,17 +1,19 @@
 "use client";
 import Modal from "@/components/modal";
 import { Input } from "@/components/input";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import Form from "@/components/form";
 import { useSession, signOut } from "next-auth/react";
 
 import { signIn, signUp } from "./signFunc";
-import { data } from "autoprefixer";
+import { UserIcon } from "@heroicons/react/24/solid";
+import Link from "next/link";
 
 export default function Sign({ className = "", ...props }) {
     const [hiddenModal, sethiddenModal] = useState(true);
     const [logType, setlogType] = useState("sign-in");
     const [loading, setloading] = useState(false);
+    const [userOptions, setuserOptions] = useState(false);
     const handleSubmit = (e: any) => {
         e.preventDefault();
         setloading(true);
@@ -55,17 +57,38 @@ export default function Sign({ className = "", ...props }) {
     };
 
     const { data: session } = useSession();
-    console.log(session?.user)
+    console.log(session?.user);
 
     if (session?.user && session) {
         return (
             <>
                 <button
-                    className="px-2 border-1 text-white mx-1  bg-blue-500 hover:bg-blue-600 rounded-lg"
-                    onClick={() => signOut()}
+                    className="p-2 border-1 rounded-full text-white mx-1  bg-slate-500/25 hover:bg-slate-500/50"
+                    onClick={() => setuserOptions(!userOptions)}
                 >
-                    SIGN OUT
+                    <UserIcon className="w-7 h-7" />
                 </button>
+                <div
+                    className={`absolute flex  backdrop-shadow bg-slate-600 text-white top-20 flex-col w-36 right-10 ${
+                        userOptions ? "flex" : "hidden"
+                    }`}
+                >
+                    <Link
+                        className="p-2 hover:underline-offset-8"
+                        href={`/user/${session.user.email}`}
+                    >
+                        Account
+                    </Link>
+                    <Link className="p-2" href={`/user/${session.user.email}/settings`}>
+                        Settings
+                    </Link>
+                    <button
+                        className="py-1 px-2 text-left text-base hover:bg-gray-200/25 "
+                        onClick={() => signOut()}
+                    >
+                        SIGN OUT
+                    </button>
+                </div>
             </>
         );
     }
