@@ -22,15 +22,16 @@ function Carousel() {
         <div className="relative w-screen h-[80vh] overflow-hidden">
             <div
                 id="carousel_container"
-                className={`flex transition h-[80vh] transition-transform ease-out duration-500`}
+                className={`flex transition h-[80vh] transition-transform ease-out duration-500 object-fit`}
                 style={{ transform: `translateX(-${imageFocus * 100}%)` }}
             >
                 {pics.map((url, index) => (
                     <img
                         key={index}
                         src={url}
+                        width={"100vw"}
                         alt=" "
-                        className="object-center h-inherit object-cover w-[100vw]"
+                        className="min-w-full object-cover object-center h-inherit  "
                     />
                 ))}
             </div>
