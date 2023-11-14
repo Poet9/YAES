@@ -1,16 +1,15 @@
 "use client";
 import { TrashIcon } from "@heroicons/react/24/solid";
+import { forwardRef } from "react";
 
-function Row({
-    rowData,
-    ...props
-}: {
-    rowData: {
-        id: string;
-        name: string;
-        description: string;
-    };
-}) {
+type RowProps = React.TableHTMLAttributes<HTMLTableRowElement> & {
+    rowData: { id: string; name: string; description: string };
+};
+
+const Row = forwardRef<HTMLTableRowElement, RowProps>(function RowBody(
+    { rowData, children, ...props },
+    ref
+) {
     const getCategoryPage = (id: string) => {};
     const deleteRowHandler = async (id: string) => {};
     return (
@@ -32,6 +31,6 @@ function Row({
             </tr>
         </>
     );
-}
+});
 
 export default Row;
