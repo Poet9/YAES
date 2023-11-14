@@ -6,7 +6,7 @@ import { forwardRef, useEffect, useState } from "react";
 
 import { CircleStackIcon, Bars3Icon, XMarkIcon, ShoppingBagIcon } from "@heroicons/react/24/solid";
 import Search from "@/components/search";
-import { Session } from "inspector";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 var bgColor = "";
@@ -68,7 +68,7 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
                 <div className="flex bg-inherit ">
                     <Link
                         className="p-2 bg-slate-500/25 mr-2 rounded-full hover:bg-slate-500/50"
-                        href={`/cart`}
+                        href={`/cart/${useSession().data?.user.email}`}
                     >
                         <ShoppingBagIcon className="w-7 h-7" />
                     </Link>
