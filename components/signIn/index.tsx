@@ -24,10 +24,17 @@ export default function Sign({ className = "", ...props }) {
 
             signIn(email, password).then(() => {
                 e.preventDefault();
-                console.log({ username: email, password: password });
-                signIn(email, password).then(() => {
-                    setloading(false);
-                });
+                signIn(email, password)
+                    .then((data) => {
+                        if (data.message) throw new Error(data.message);
+                        setloading(false);
+                    })
+                    .catch((e) => {
+                        const errorP = document.getElementById("signin_error_p") || {
+                            textContent: "",
+                        };
+                        errorP.textContent = e.message;
+                    });
             });
         } else if (logType === "sign-up") {
             // write code to sign up
@@ -41,16 +48,18 @@ export default function Sign({ className = "", ...props }) {
                 gender: true,
             };
             signUp(user)
-                .then(() => console.log("from signin dot then", user))
-                .then(() => {
+                .then(() => signIn(user.email, user.password))
+                .then((data) => {
+                    if (data.message) throw new Error(data.message);
                     setloading(false);
                 })
-                .then(() => {
-                    signIn(user.email, user.password);
+                .catch((e) => {
+                    const errorP = document.getElementById("signin_error_p") || { textContent: "" };
+                    errorP.textContent = e.message;
                 });
         }
         // to mock waiting behavior
-        setInterval(() => setloading(false), 10000);
+        setTimeout(() => setloading(false), 10000);
     };
     const toggleLogType = () => {
         logType === "sign-up" ? setlogType("sign-in") : setlogType("sign-up");
@@ -151,6 +160,7 @@ export default function Sign({ className = "", ...props }) {
                         className="w-full"
                         required
                     />
+                    <p id="signin_error_p" className="text-rose-400 p-1 text-sm truncate"></p>
                     <button
                         type="submit"
                         className="py-4 text-base rounded-md w-full bg-blue-400 hover:bg-blue-500 text-white "

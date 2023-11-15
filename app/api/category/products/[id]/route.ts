@@ -94,7 +94,8 @@ export async function GET(request:NextRequest,{params}:{params:{id:number}}){
             }
 
         const product = await prisma.product.findMany({
-            where:{ product_categoryId : {in : ListOfCategoryId} }
+            where:{ product_categoryId : {in : ListOfCategoryId} },
+            include: {category: {select:{name:true}}}
         });
         return new Response(JSON.stringify(product))
 
