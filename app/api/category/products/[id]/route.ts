@@ -43,3 +43,62 @@ export async function POST(request:NextRequest,{params}:{params:{id:string}}){
 
     return new Response(JSON.stringify(product),{status:200})
 }
+
+export async function GET(request:NextRequest,{params}:{params:{id:number}}){
+    try{
+
+        const take = request.nextUrl.searchParams.get("take")
+        const start = request.nextUrl.searchParams.get("skip")
+
+        if (take || start){
+
+            const category = await prisma.product_category.findFirst({
+                where:{id: Number(params.id)},
+                select:{id:true, subCategory:{select:{id:true, subCategory:{select:{id:true}}}}}
+            })
+
+            let ListOfCategoryId: Array<number> = [Number(category?.id)]
+
+            if (category?.subCategory)
+                for (var x of category?.subCategory){
+                    ListOfCategoryId.push(x.id)
+                    if (x.subCategory){
+                        for (var y of x.subCategory){
+                            ListOfCategoryId.push(y.id)
+                        }
+                    }
+                }
+
+            const product = await prisma.product.findMany({
+                where:{ product_categoryId : {in : ListOfCategoryId} },
+                take: Number(take), skip: Number(start)
+            });
+            return new Response(JSON.stringify(product))
+        }
+
+        const category = await prisma.product_category.findFirst({
+            where:{id: Number(params.id)},
+            select:{id:true, subCategory:{select:{id:true, subCategory:{select:{id:true}}}}}
+        })
+
+        let ListOfCategoryId: Array<number> = [Number(category?.id)]
+
+        if (category?.subCategory)
+            for (var x of category?.subCategory){
+                ListOfCategoryId.push(x.id)
+                if (x.subCategory){
+                    for (var y of x.subCategory){
+                        ListOfCategoryId.push(y.id)
+                    }
+                }
+            }
+
+        const product = await prisma.product.findMany({
+            where:{ product_categoryId : {in : ListOfCategoryId} }
+        });
+        return new Response(JSON.stringify(product))
+
+    }catch{
+        return new Response(JSON.stringify({error:"Ah rabak chawala hada"}),{status:401})
+    }
+}
