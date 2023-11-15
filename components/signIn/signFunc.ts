@@ -8,41 +8,46 @@ const signIn = async (email: string, password: string) => {
         email: email,
         name: password,
     };
-    SignIn("credentials",{email: email, password: password, redirect: false, callbackUrl: '/'})
     try {
-        
+        // this returns a promise make sure to await it
+        await SignIn("credentials", {
+            email: email,
+            password: password,
+            redirect: false,
+            callbackUrl: "/",
+        });
     } catch (err: any) {
-        console.log({ error: err.message });
+        return err;
     }
 
     // return promise
     return user;
 };
+
 // the code to sign up goes in this function
 const signUp = async (user: user) => {
-    const newUser = {};
+    // const newUser = {};
     try {
-        const result: any = await fetch ("http://localhost:3000/api/user", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        
-        body: JSON.stringify({
-            email: user.email,
-            password: user.password,
-            birthDate: new Date(user.birthday),
-            gender: true,
-            name: user.name,
-            firstName: user.firstName
-        })
-    })
-    } catch (err: any) {
-        console.log({ error: err.message });
-    }
+        const result: any = await fetch("http://localhost:3000/api/user", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
 
-    // return promise
-    return newUser;
+            body: JSON.stringify({
+                email: user.email,
+                password: user.password,
+                birthDate: new Date(user.birthday),
+                gender: true,
+                name: user.name,
+                firstName: user.firstName,
+            }),
+        });
+        // return promise
+        return "nothing for you mf";
+    } catch (err: any) {
+        return err;
+    }
 };
 
 export { signIn, signUp };
