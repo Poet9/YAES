@@ -31,7 +31,7 @@ model User {
 
 model City {
   id       Int    @id @unique
-  name     String 
+  name     String
   wilayaId Int
 
   wilaya      Wilaya        @relation(fields: [wilayaId], references: [id])
@@ -61,27 +61,30 @@ model Product_category {
   id          Int     @id @default(autoincrement())
   name        String
   description String?
+  categoryId  Int?
 
-  Product     Product[]
-  promotionId Promotion[] //many to many
+  Product      Product[]
+  promotionId  Promotion[] //many to many
+  mainCategory Product_category?  @relation("Subcategories", fields: [categoryId], references: [id])
+  subCategory  Product_category[] @relation("Subcategories")
 }
 
 model Product {
-  id                 Int     @id @default(autoincrement())
+  id                 Int      @id @default(autoincrement())
   product_categoryId Int
   name               String
   description        String?
   img                String[]
-  price Int
+  price              Int
 
   Item     Item[]
   category Product_category @relation(fields: [product_categoryId], references: [id])
 }
 
 model Item {
-  id         Int     @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   productId  Int
-  SKU        String  @unique
+  SKU        String   @unique
   qtyInStock Int
   img        String[]
   price      Int
@@ -116,11 +119,10 @@ model Cart {
 }
 
 model Order {
-  id             String @id @default(uuid())
-  userId         String
-  totalPrice     Int
+  id           String      @id @default(uuid())
+  userId       String
+  totalPrice   Int
   order_status OrderStatus @default(VALIDATION)
-
 
   user           User             @relation(fields: [userId], references: [id])
   Order_item     Order_item[]
