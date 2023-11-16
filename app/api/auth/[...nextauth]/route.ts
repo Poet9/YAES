@@ -1,5 +1,6 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+import jwt from "jsonwebtoken";
 const handler = NextAuth({
     providers: [
         CredentialsProvider({
@@ -13,7 +14,7 @@ const handler = NextAuth({
                 email: { label: "email", type: "text", placeholder: "jsmith" },
                 password: { label: "Password", type: "password" },
             },
-            async authorize(credentials, req) {
+            async authorize(credentials) {
                 // Add logic here to look up the user from the credentials supplied
                 const res = await fetch("http://localhost:3000/api/login", {
                     method: "POST",
