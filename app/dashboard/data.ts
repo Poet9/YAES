@@ -7,7 +7,6 @@ export const categories = async () => {
             cache: "no-store",
         });
         const data = await res.json();
-        console.log({ clientGet: data });
         return data;
     } catch (err) {
         console.log({ error: err });
