@@ -1,7 +1,6 @@
 import { withAuth } from "next-auth/middleware";
 import { NextRequest, NextResponse } from "next/server";
-import { VerifyJwt } from "@/lib/jwt";
-import { PrismaClient, Roles } from "@prisma/client";
+import { PrismaClient, Roles } from "@prisma/client/edge";
 
 const prisma = new PrismaClient();
 
@@ -11,16 +10,11 @@ export default withAuth(
     },
     {
         callbacks: {
-            async authorized({ token }) {
+            async authorized({ token, req }) {
                 try {
-                    if (token?.id === null) return false;
-                    const userId = token?.id;
-                    const userRole = await prisma.user.findFirst({
-                        where: { id: token?.id },
-                        select: { role: true },
-                    });
-                    return userRole?.role === "ADMIN";
+                    return token?.role === Roles.ADMIN;
                 } catch (error: any) {
+                    console.log({ ERRMID: error.message });
                     return false;
                 }
             },
@@ -28,9 +22,4 @@ export default withAuth(
     }
 );
 
-export const config = { matcher: ["/dashboard", "/dashboard/"] };
-
-// await prisma.user.findFirst({
-//     where: { id: VerifyJwt(token).id },
-//     select: { role: true },
-// });
+export const config = { matcher: ["/dashboard"] };
