@@ -11,7 +11,7 @@ async function Category() {
             <h1 className="mt-8">welcome to your Dashboard</h1>
             <Table>
                 {Array.isArray(myCategories)
-                    ? myCategories.map((row, i) => <Row key={"category_" + i} rowData={row} />)
+                    ? myCategories.map((row, i) => <Row key={"items_" + i} rowData={row} />)
                     : null}
             </Table>
         </div>
