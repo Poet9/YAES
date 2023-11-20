@@ -1,6 +1,8 @@
 "use client";
 import { TrashIcon } from "@heroicons/react/24/solid";
+import { useRouter } from "next/navigation";
 import { forwardRef } from "react";
+import { deleteRow } from "./helper";
 
 type RowProps = React.TableHTMLAttributes<HTMLTableRowElement> & {
     rowData: { id: string; name: string; description: string };
@@ -10,8 +12,12 @@ const Row = forwardRef<HTMLTableRowElement, RowProps>(function RowBody(
     { rowData, children, ...props },
     ref
 ) {
+    const router = useRouter();
     const getCategoryPage = (id: string) => {};
-    const deleteRowHandler = async (id: string) => {};
+    const deleteRowHandler = async (id: string) => {
+        await deleteRow(id);
+        router.refresh();
+    };
     return (
         <>
             <tr
