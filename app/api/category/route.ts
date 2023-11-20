@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { NextRequest } from 'next/server';
 import { PrismaClient, Roles } from '@prisma/client'
 import { notFound } from 'next/navigation';
@@ -15,10 +14,12 @@ export async function GET(request:NextRequest,){
             const Category = await prisma.product_category.findMany({
                 where:{categoryId: null},
                 include:{
-                    subCategory: {select:{id: true, name: true, description: true, subCategory:true}}
+                    subCategory: {select:{id: true, name: true, description: true, subCategory:{select:{id: true, name: true, description: true, subCategory:{select:{id: true, name: true, description: true, subCategory:true}}}}}}
                 },
                 take: Number(take), skip: Number(start)
                 });
+            
+            
             return new Response(JSON.stringify(Category))
         }
 
@@ -32,13 +33,3 @@ export async function GET(request:NextRequest,){
         return new Response(JSON.stringify({error:"Ah rabak chawala hada"}),{status:401})
     }
 }
-=======
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
-
-export async function GET() {
-    const categories = await prisma.product_category.findMany();
-    return new Response(JSON.stringify(categories), { status: 200 });
-}
->>>>>>> 5e8e621aeab1281bacd390556f556aa21edc712e
