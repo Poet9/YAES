@@ -36,7 +36,7 @@ const Row = forwardRef<HTMLTableRowElement, RowProps>(function RowBody(
                 </td>
                 <td className="border p-3 border-slate-700 ">{rowData.name}</td>
                 <td className="border p-3 border-slate-700 ">{rowData.description}</td>
-                <td className="border p-3 border-slate-700 ">{rowData.price}</td>
+                <td className="border p-3 border-slate-700 ">{rowData.price}$</td>
                 <td
                     className="border p-3  border-slate-700 hover:bg-slate-600/75 cursor-pointer "
                     onClick={() => deleteRowHandler(rowData.id)}

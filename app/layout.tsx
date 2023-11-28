@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import Header from "@/components/header/";
 import "./globals.css";
 import Providers from "@/components/providers";
+import { EdgeStoreProvider } from "@/lib/edgestore";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,8 +19,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="en" data-theme="dark">
             <body className={inter.className}>
                 <Providers>
-                    <Header />
-                    {children}
+                    <EdgeStoreProvider>
+                        <Header />
+                        {children}
+                    </EdgeStoreProvider>
                 </Providers>
             </body>
         </html>
