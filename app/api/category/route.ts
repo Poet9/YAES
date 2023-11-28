@@ -1,6 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/app/api/prisma";
 
-const prisma = new PrismaClient();
 type CategoryT = {
     name: string;
     description: string;

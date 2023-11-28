@@ -1,6 +1,6 @@
 import { SignJwtAccessToken } from "@/lib/jwt";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+
+import prisma from "@/app/api/prisma";
 
 const bcrypt = require("bcrypt");
 

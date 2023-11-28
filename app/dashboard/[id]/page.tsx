@@ -1,21 +1,22 @@
 import Table from "@/components/table";
 import { items } from "./data";
-import Row from "@/components/table/row";
+import RowItem from "@/components/table/rowItem";
 
-async function Category() {
+async function Item(props: any) {
     // here request if user is admin
-    //
-    const myCategories = await items();
+
+    const categoryId: string = props.params?.id || " ";
+    const myCategories = await items(categoryId);
     return (
         <div className="pt-36 w-screen min-h-screen">
             <h1 className="mt-8">welcome to your Dashboard</h1>
-            <Table>
+            <Table tableFor="product">
                 {Array.isArray(myCategories)
-                    ? myCategories.map((row, i) => <Row key={"items_" + i} rowData={row} />)
+                    ? myCategories.map((row, i) => <RowItem key={"items_" + i} rowData={row} />)
                     : null}
             </Table>
         </div>
     );
 }
 
-export default Category;
+export default Item;
