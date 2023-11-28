@@ -1,12 +1,18 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
-import { ArrowLeftIcon, ChevronRightIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { TrashIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
 import { forwardRef } from "react";
-import { deleteRow } from "./helper";
-import Link from "next/link";
+import { deleteRow, deleteProduct } from "./helper";
 
 type RowProps = React.TableHTMLAttributes<HTMLTableRowElement> & {
-    rowData: { id: string; name: string; description: string };
+    rowData: {
+        id: string;
+        name: string;
+        description: string;
+        img: string[];
+        price: number | string;
+    };
 };
 
 const Row = forwardRef<HTMLTableRowElement, RowProps>(function RowBody(
@@ -16,7 +22,7 @@ const Row = forwardRef<HTMLTableRowElement, RowProps>(function RowBody(
     const router = useRouter();
     const getCategoryPage = (id: string) => {};
     const deleteRowHandler = async (id: string) => {
-        await deleteRow(id);
+        await deleteProduct(id);
         router.refresh();
     };
     return (
@@ -25,18 +31,12 @@ const Row = forwardRef<HTMLTableRowElement, RowProps>(function RowBody(
                 className="hover:bg-slate-600/50 cursor-pointer"
                 onClick={() => getCategoryPage(rowData.id)}
             >
-                <td>
-                    <Link
-                        href={`/dashboard/${rowData.id}`}
-                        className="flex justify-between border align-center p-3 border-slate-700 "
-                    >
-                        <ChevronRightIcon className="h-7 w-7 " />
-                        {rowData.id}
-                    </Link>
+                <td className="border p-3 border-slate-700 ">
+                    <img src={rowData.img[0]} alt="" className="h-10 w-8 object-fit" />
                 </td>
                 <td className="border p-3 border-slate-700 ">{rowData.name}</td>
-
                 <td className="border p-3 border-slate-700 ">{rowData.description}</td>
+                <td className="border p-3 border-slate-700 ">{rowData.price}</td>
                 <td
                     className="border p-3  border-slate-700 hover:bg-slate-600/75 cursor-pointer "
                     onClick={() => deleteRowHandler(rowData.id)}

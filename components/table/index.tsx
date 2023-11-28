@@ -3,27 +3,52 @@ import { PlusIcon } from "@heroicons/react/24/solid";
 import { forwardRef, useState } from "react";
 import Modal from "@/components/modal";
 import Form from "@/components/form";
-import { Input } from "../input";
-import { newCategory } from "./helper";
+import { Input, NumberInput } from "../input";
+import { newCategory, newProduct } from "./helper";
 import { useRouter } from "next/navigation";
 
-type TableProps = React.TableHTMLAttributes<HTMLTableElement>;
+type TableProps = {
+    tableFor: string;
+} & React.TableHTMLAttributes<HTMLTableElement>;
 
 const Table = forwardRef<HTMLTableElement, TableProps>(function TableC(
-    { children, ...props },
+    { tableFor = "", children, ...props },
     ref
 ) {
     const router = useRouter();
     const [showCreateCategory, setshowCreateCategory] = useState(false);
     const [loading, setloading] = useState(false);
+    const numberInputHandler = (e: any) => {
+        try {
+            const value = e.target.value;
+            e.target.value = value.replace(/[^0-9.]/g, "");
+        } catch (e) {
+            console.log(Math.floor(Math.random() * 100));
+        }
+    };
     const formSubmitHandler = async (e: any) => {
         e.preventDefault();
         setloading(true);
-        const category = {
-            name: e.target.querySelectorAll("input")[0].value,
-            description: e.target.querySelectorAll("input")[1].value,
-        };
-        await newCategory(category);
+        if (tableFor !== "category" && tableFor !== "product") {
+            return setshowCreateCategory(false);
+        }
+        if (tableFor === "category") {
+            const category = {
+                name: e.target.querySelectorAll("input")[0].value,
+                description: e.target.querySelectorAll("input")[1].value,
+            };
+            await newCategory(category);
+        } else {
+            const fullUrl = window.location.pathname.split("/");
+            const productData = {
+                name: e.target.querySelectorAll("input")[0].value,
+                description: e.target.querySelectorAll("input")[1].value,
+                img: [e.target.querySelectorAll("input")[2].value],
+                price: parseFloat(e.target.querySelectorAll("input")[3].value),
+                product_categoryId: parseInt(fullUrl[fullUrl.length - 1]),
+            };
+            await newProduct(productData);
+        }
         router.refresh();
         setloading(false);
         setshowCreateCategory(false);
@@ -36,6 +61,9 @@ const Table = forwardRef<HTMLTableElement, TableProps>(function TableC(
                         <th className="border border-slate-600 py-3">ID</th>
                         <th className="border border-slate-600 ">Name</th>
                         <th className="border border-slate-600 ">Description</th>
+                        {tableFor === "product" && (
+                            <th className="border border-slate-600 ">Price</th>
+                        )}
                         <th className="border border-slate-600 w-4 ">Delete</th>
                     </tr>
                 </thead>
@@ -44,6 +72,9 @@ const Table = forwardRef<HTMLTableElement, TableProps>(function TableC(
                         <td className="border p-3 border-slate-700 "></td>
                         <td className="border p-3 border-slate-700 "></td>
 
+                        {tableFor === "product" && (
+                            <td className="border p-3 border-slate-700 "></td>
+                        )}
                         <td className="border p-3 border-slate-700 "></td>
                         <td
                             className="border p-3  border-slate-700 hover:bg-slate-600/75 cursor-pointer "
@@ -56,7 +87,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(function TableC(
                 </tbody>
             </table>
             <Modal
-                title="Create a category"
+                title={`Create a ${tableFor}`}
                 hidden={!showCreateCategory}
                 onClose={() => setshowCreateCategory(false)}
             >
@@ -81,6 +112,25 @@ const Table = forwardRef<HTMLTableElement, TableProps>(function TableC(
                         className="my-2"
                         required
                     />
+                    {tableFor === "product" && (
+                        <>
+                            <Input
+                                id="prod_image"
+                                type="file"
+                                accept="image/png, image/gif, image/jpeg"
+                                placeholder="photo..."
+                                className="my-2"
+                                required
+                            />
+                            <Input
+                                id="prod_price"
+                                placeholder="price..."
+                                className="my-2"
+                                onChange={numberInputHandler}
+                                required
+                            />
+                        </>
+                    )}
                     <button
                         type="submit"
                         className="py-4 text-base rounded-md w-full bg-blue-400 hover:bg-blue-500 text-white "
