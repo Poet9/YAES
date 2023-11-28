@@ -9,7 +9,7 @@ async function Dashboard() {
     return (
         <div className="pt-36 w-screen min-h-screen">
             <h1 className="mt-8">welcome to your Dashboard</h1>
-            <Table>
+            <Table tableFor="category">
                 {Array.isArray(myCategories)
                     ? myCategories.map((row, i) => <Row key={"category_" + i} rowData={row} />)
                     : null}
