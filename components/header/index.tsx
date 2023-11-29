@@ -39,12 +39,6 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
     disableScrollHandler();
     useEffect(() => {
         setshowSidebar(false);
-
-        /**  here try to fetch the user inside a useEffect hook
-         * if it is avalable then render an icon with user details
-         * else render the sign in button
-         */
-        console.log("I am from the useEffect duuude", bgColor);
     }, []);
 
     return (
@@ -61,10 +55,12 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
                     className="mx-2 w-10 h-10 cursor-pointer text-green-800 hidden md:block"
                     title="logo"
                 />
-                <Search
-                    className=" bg-inherit w-fit"
-                    hideSidebar={() => showSidebar && setshowSidebar(false)}
-                />
+                {window.location.pathname.split("/").length < 3 && (
+                    <Search
+                        className=" bg-inherit w-fit"
+                        hideSidebar={() => showSidebar && setshowSidebar(false)}
+                    />
+                )}
                 <div className="flex bg-inherit ">
                     <Link
                         className="p-2 bg-slate-500/25 mr-2 rounded-full hover:bg-slate-500/50"
