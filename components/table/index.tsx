@@ -3,9 +3,11 @@ import { PlusIcon } from "@heroicons/react/24/solid";
 import { forwardRef, useState } from "react";
 import Modal from "@/components/modal";
 import Form from "@/components/form";
-import { Input, NumberInput } from "../input";
+import { Input } from "../input";
 import { newCategory, newProduct } from "./helper";
 import { useRouter } from "next/navigation";
+import { SingleImageDropzone } from "../input/imgInput";
+import { useEdgeStore } from "@/lib/edgestore";
 
 type TableProps = {
     tableFor: string;
@@ -16,6 +18,8 @@ const Table = forwardRef<HTMLTableElement, TableProps>(function TableC(
     ref
 ) {
     const router = useRouter();
+    const [file, setFile] = useState<File>();
+    const { edgestore } = useEdgeStore();
     const [showCreateCategory, setshowCreateCategory] = useState(false);
     const [loading, setloading] = useState(false);
     const numberInputHandler = (e: any) => {
@@ -29,6 +33,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(function TableC(
     const formSubmitHandler = async (e: any) => {
         e.preventDefault();
         setloading(true);
+
         if (tableFor !== "category" && tableFor !== "product") {
             return setshowCreateCategory(false);
         }
@@ -39,17 +44,22 @@ const Table = forwardRef<HTMLTableElement, TableProps>(function TableC(
             };
             await newCategory(category);
         } else {
+            if (!file) return;
+            const res = await edgestore.myPublicImages.upload({ file });
+            // you can run some server action or api here
+            // to add the necessary data to your database
             const fullUrl = window.location.pathname.split("/");
             const productData = {
                 name: e.target.querySelectorAll("input")[0].value,
                 description: e.target.querySelectorAll("input")[1].value,
-                img: [e.target.querySelectorAll("input")[2].value],
+                img: [res.url],
                 price: parseFloat(e.target.querySelectorAll("input")[3].value),
                 product_categoryId: parseInt(fullUrl[fullUrl.length - 1]),
             };
             await newProduct(productData);
         }
         router.refresh();
+        setFile(undefined);
         setloading(false);
         setshowCreateCategory(false);
     };
@@ -114,13 +124,14 @@ const Table = forwardRef<HTMLTableElement, TableProps>(function TableC(
                     />
                     {tableFor === "product" && (
                         <>
-                            <Input
-                                id="prod_image"
-                                type="file"
-                                accept="image/png, image/gif, image/jpeg"
-                                placeholder="photo..."
-                                className="my-2"
-                                required
+                            <SingleImageDropzone
+                                width={200}
+                                height={200}
+                                value={file}
+                                dropzoneOptions={{ maxSize: 1024 * 1024 * 1 }}
+                                onChange={(file) => {
+                                    setFile(file);
+                                }}
                             />
                             <Input
                                 id="prod_price"
