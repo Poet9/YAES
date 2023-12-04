@@ -8,6 +8,7 @@ import { CircleStackIcon, Bars3Icon, XMarkIcon, ShoppingBagIcon } from "@heroico
 import Search from "@/components/search";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 var bgColor = "";
 type headerProps = React.HTMLAttributes<HTMLHeadingElement>;
@@ -15,6 +16,8 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
     { children, ...props },
     ref
 ) {
+    const pathname = usePathname();
+    console.log({ pathname });
     const [showSidebar, setshowSidebar] = useState(false);
     try {
         if (document.getElementsByTagName("html")[0]?.getAttribute("data-theme") === "light") {
@@ -55,7 +58,7 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
                     className="mx-2 w-10 h-10 cursor-pointer text-green-800 hidden md:block"
                     title="logo"
                 />
-                {window.location.pathname.split("/").length < 3 && (
+                {pathname.length < 2 && (
                     <Search
                         className=" bg-inherit w-fit"
                         hideSidebar={() => showSidebar && setshowSidebar(false)}

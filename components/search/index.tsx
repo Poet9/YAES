@@ -4,6 +4,7 @@ import { Input } from "@/components/input";
 import Form from "../form";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { searchFunction } from "./helper";
+import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
 
 function Search({
     hideSidebar,
@@ -13,13 +14,20 @@ function Search({
     hideSidebar: () => void;
     className: string | undefined;
 }) {
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const { replace } = useRouter();
     const getSearchResult = async (e: any) => {
         e.preventDefault();
         hideSidebar();
-        console.log("we are sarching for items stay tuned");
         const name = e.target.querySelector("input").value;
-        const res = await searchFunction(name);
-        console.log(res);
+        const myParams = new URLSearchParams(searchParams);
+        if (name) {
+            myParams.set("query", name);
+        } else {
+            myParams.delete("query");
+        }
+        replace(`${pathname}?${myParams.toString()}`);
     };
     return (
         <Form
@@ -31,7 +39,6 @@ function Search({
             <Input
                 className="ml-1 py-1 w-full md:w-96 autofocus"
                 placeholder="search for items..."
-                required
             />
             <button type="submit" className="px-3  rounded  ">
                 <MagnifyingGlassIcon className="w-6 h-5" />
