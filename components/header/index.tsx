@@ -8,6 +8,7 @@ import { CircleStackIcon, Bars3Icon, XMarkIcon, ShoppingBagIcon } from "@heroico
 import Search from "@/components/search";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 var bgColor = "";
 type headerProps = React.HTMLAttributes<HTMLHeadingElement>;
@@ -15,6 +16,8 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
     { children, ...props },
     ref
 ) {
+    const pathname = usePathname();
+    console.log({ pathname });
     const [showSidebar, setshowSidebar] = useState(false);
     try {
         if (document.getElementsByTagName("html")[0]?.getAttribute("data-theme") === "light") {
@@ -39,12 +42,6 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
     disableScrollHandler();
     useEffect(() => {
         setshowSidebar(false);
-
-        /**  here try to fetch the user inside a useEffect hook
-         * if it is avalable then render an icon with user details
-         * else render the sign in button
-         */
-        console.log("I am from the useEffect duuude", bgColor);
     }, []);
 
     return (
@@ -61,10 +58,12 @@ const Header = forwardRef<HTMLHeadingElement, headerProps>(function Bala(
                     className="mx-2 w-10 h-10 cursor-pointer text-green-800 hidden md:block"
                     title="logo"
                 />
-                <Search
-                    className=" bg-inherit w-fit"
-                    hideSidebar={() => showSidebar && setshowSidebar(false)}
-                />
+                {pathname.length < 2 && (
+                    <Search
+                        className=" bg-inherit w-fit"
+                        hideSidebar={() => showSidebar && setshowSidebar(false)}
+                    />
+                )}
                 <div className="flex bg-inherit ">
                     <Link
                         className="p-2 bg-slate-500/25 mr-2 rounded-full hover:bg-slate-500/50"

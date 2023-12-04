@@ -2,7 +2,7 @@
 const { signal } = new AbortController();
 export const categories = async () => {
     try {
-        const res = await fetch("http://localhost:3000/api/category", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/category`, {
             method: "GET",
             cache: "no-store",
         });
